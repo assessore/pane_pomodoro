@@ -1,0 +1,50 @@
+@charset "ISO-8859-1";
+
+*{
+	text-decoration:none;
+
+}
+
+.navbar{
+	background: crimson; font-family: calibri; padding-right: 15px; padding-left: 15px;
+	
+}
+
+.navdiv{
+	display: flex; align-items: center; justify-content: space-between;
+}
+
+.logo a{
+	font-size: 35px; font-weight: 600; color: white;
+}
+
+li{
+	list-style: none; display: inline-block; padding:10px 10px;
+}
+
+li a{
+	color: white; font-size: 18px; font-weight:bold;
+	
+}
+
+li a:hover{
+	color: red; tranistion: .3s
+	
+}
+
+button{
+	border: none;
+	background: red;
+	padding: 12px 30px;
+	border-radius:30px;
+	color: white;
+	font-weight: bold;
+	font-size:15px;
+	transition: .4s;
+	
+}
+
+
+button:hover{
+	
+}
