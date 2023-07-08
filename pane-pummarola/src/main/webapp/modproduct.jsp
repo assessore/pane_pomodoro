@@ -17,7 +17,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Aggiungi Prodotto</title>
+<title>Modifica Prodotto</title>
 <%@include file="includes/header.jsp" %>
 </head>
 <body>
@@ -25,7 +25,7 @@
 
 <div class="container">
 <div class="card w-50 mx-auto my-5">
-<div class="card-header text-center">Aggiungi Prodotto</div>
+<div class="card-header text-center">Modifica Prodotto</div>
 <div class="card-body">
 <form action="mod-product" method="post">
 
@@ -60,7 +60,7 @@
 
 <br>
 <div class="text-center">
-<button type="submit" class="btn btn-warning">Aggiungi</button>
+<button type="submit" class="btn btn-warning">Modifica</button>
 </div>
 
 

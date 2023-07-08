@@ -6,12 +6,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%
-int amm = 0;
+
 Users auth = (Users) request.getSession().getAttribute("auth");
 if (auth != null){
-	if(auth.getId() == 1){
-		amm = 1;
-	}
+
+	
 	request.setAttribute("auth", auth);
 }
 
@@ -65,7 +64,7 @@ List<Product> products = pd.getAllProducts();
 							
 							
 							<div class="mt-3 d-flex justify-content-between">
-								<a href="modproduct.jsp?id=<%=p.getId() %>" class="">Modifica</a>
+								<a href="modproduct.jsp?id=<%=p.getId() %>" class="btn btn-warning">Modifica</a>
 								<a href="remove-products?id=<%=p.getId() %>"class="btn btn-danger">Rimuovi</a>
 							</div>
 						</div>
@@ -84,6 +83,7 @@ List<Product> products = pd.getAllProducts();
 	<% if(amm==1){ %>
 	<br>	
 	<a href="newproduct.jsp" class="btn btn-warning">Aggiungi Prodotto</a>
+	<a href="gestorders.jsp" class="btn btn-warning">Gestisci Ordini</a>
 		<br><br>
 		<%} %>
 		
