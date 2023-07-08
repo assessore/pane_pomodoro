@@ -3,6 +3,7 @@ package cn.eros.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 import cn.eros.model.*;
 
@@ -94,6 +95,137 @@ public class ProductDao {
         }
         return sum;
     }
+
+	public Product getSingleProduct(int id) {
+		 Product row = null;
+	        try {
+	            query = "select * from products where id=? ";
+
+	            pst = this.con.prepareStatement(query);
+	            pst.setInt(1, id);
+	            ResultSet rs = pst.executeQuery();
+
+	            while (rs.next()) {
+	            	row = new Product();
+	                row.setId(rs.getInt("id"));
+	                row.setName(rs.getString("name"));
+	                row.setCategory(rs.getString("category"));
+	                row.setPrice(rs.getDouble("price"));
+	                row.setImage(rs.getString("image"));
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            System.out.println(e.getMessage());
+	        }
+
+	        return row;
+	}
+
+
+public List<Product> getByCategory(String categoria){
+	List<Product> products = new ArrayList<Product>();
+	
+
+	
+	try {
+		query = "select * from products where category =?";
+		pst = this.con.prepareStatement(query);
+		pst.setString(1, categoria);
+		rs = pst.executeQuery();
+		while(rs.next()) {
+			Product row = new Product();
+			row.setId(rs.getInt("id"));
+			row.setName(rs.getString("name"));
+			row.setCategory(rs.getString("category"));
+			row.setPrice(rs.getDouble("price"));
+			row.setImage(rs.getString("image"));
+			
+			products.add(row);
+		}
+	}catch(Exception e) {
+		e.printStackTrace();
+	
+
+	}
+	return products;
 }
 
+public List<Product> getByPrice(int price){
+	List<Product> products = new ArrayList<Product>();
+	
 
+	
+	try {
+		query = "select * from products where price <= ?";
+		pst = this.con.prepareStatement(query);
+		pst.setInt(1, price);
+		rs = pst.executeQuery();
+		while(rs.next()) {
+			Product row = new Product();
+			row.setId(rs.getInt("id"));
+			row.setName(rs.getString("name"));
+			row.setCategory(rs.getString("category"));
+			row.setPrice(rs.getDouble("price"));
+			row.setImage(rs.getString("image"));
+			
+			products.add(row);
+		}
+	}catch(Exception e) {
+		e.printStackTrace();
+	
+
+	}
+	return products;
+}
+
+public boolean removeProduct(int id) {
+    boolean result = false;
+    try {
+        query = "delete from products where id=?";
+        pst = this.con.prepareStatement(query);
+        pst.setInt(1, id);
+        pst.execute();
+        result = true;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        System.out.print(e.getMessage());
+    }
+    return result;
+}
+
+public boolean insertProduct(Product model) {
+    boolean result = false;
+    try {
+        query = "insert into products (id, name, category, price, image) values(?,?,?,?,?)";
+        pst = this.con.prepareStatement(query);
+        pst.setInt(1, model.getId());
+        pst.setString(2, model.getName());
+        pst.setString(3, model.getCategory());
+        pst.setDouble(4, model.getPrice());
+        pst.setString(5, model.getImage());
+        pst.executeUpdate();
+        result = true;
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    }
+    return result;
+}
+
+public boolean modProduct(Product model) {
+    boolean result = false;
+    try {
+        query = "update products set name=?, category=?, price=?, image=?  WHERE id = ?";
+        pst = this.con.prepareStatement(query);
+        pst.setString(1, model.getName());
+        pst.setString(2, model.getCategory());
+        pst.setDouble(3, model.getPrice());
+        pst.setString(4, model.getImage());
+        pst.setInt(5, model.getId());
+        pst.executeUpdate();
+        result = true;
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    }
+    return result;
+}
+}

@@ -3,7 +3,9 @@ package cn.eros.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import cn.eros.model.Order;
 import cn.eros.model.Users;
 
 public class UsersDao {
@@ -32,6 +34,7 @@ public class UsersDao {
 				users.setId(rs.getInt("id"));
 				users.setName(rs.getString("name"));
 				users.setEmail(rs.getString("email"));
+				users.setIndirizzo(rs.getString("indirizzo"));
 			}
 			
 		}catch (Exception e) {
@@ -41,5 +44,45 @@ public class UsersDao {
 		}
 		return users;
 	}
+
+	
+	public boolean registerUser(Users model) {
+        boolean result = false;
+        try {
+            query = "insert into users (id, name, email, password, indirizzo, carta) values(?,?,?,?,?,?)";
+            pst = this.con.prepareStatement(query);
+            pst.setInt(1, model.getId());
+            pst.setString(2, model.getName());
+            pst.setString(3, model.getEmail());
+            pst.setString(4, model.getPassword());
+            pst.setString(5, model.getIndirizzo());
+            pst.setString(6, model.getCarta());
+            pst.executeUpdate();
+            result = true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+}
+	
+	public boolean changeUser(Users model) {
+        boolean result = false;
+        try {
+            query = "update users set name=?, email=?, password=?, indirizzo=?, carta=? WHERE id = ?";
+            pst = this.con.prepareStatement(query);
+            pst.setString(1, model.getName());
+            pst.setString(2, model.getEmail());
+            pst.setString(3, model.getPassword());
+            pst.setString(4, model.getIndirizzo());
+            pst.setString(5, model.getCarta());
+            pst.setInt(6, model.getId());
+            pst.executeUpdate();
+            result = true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+}
+	
 	
 }
