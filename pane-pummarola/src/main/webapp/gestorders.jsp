@@ -8,21 +8,22 @@
 	pageEncoding="ISO-8859-1"%>
 	
 	<%
-	DecimalFormat dcf = new DecimalFormat("#.##");
-	request.setAttribute("dcf", dcf);
+	int amm = 0;
 	Users auth = (Users) request.getSession().getAttribute("auth");
-	List<Order> orders = null;
-	if (auth != null) {
-	    request.setAttribute("person", auth);
-	    OrderDao orderDao  = new OrderDao(DbCon.getConnection());
-		orders = orderDao.userOrders(auth.getId());
-	}else{
-		response.sendRedirect("login.jsp");
+	if (auth != null){
+
+		if(auth.getId() == 1){
+			amm = 1;
+		}
+		
 	}
-	ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
-	if (cart_list != null) {
-		request.setAttribute("cart_list", cart_list);
-	}
+
+	request.setAttribute("auth", auth);
+
+
+	OrderDao od = new OrderDao(DbCon.getConnection());
+	List<Order> orders = od.getAllOrders();
+	
 	
 	%>
 <!DOCTYPE html>
@@ -38,6 +39,7 @@
 		<table class="table table-light">
 			<thead>
 				<tr>
+					<th scope="col">Ordine</th>
 					<th scope="col">Data</th>
 					<th scope="col">Nome</th>
 					<th scope="col">Categoria</th>
@@ -52,12 +54,13 @@
 			if(orders != null){
 				for(Order o:orders){%>
 					<tr>
+						<td><%=o.getOrderId() %></td>
 						<td><%=o.getDate() %></td>
 						<td><%=o.getName() %></td>
 						<td><%=o.getCategory() %></td>
 						<td><%=o.getQunatity() %></td>
-						<td><%=dcf.format(o.getPrice()) %></td>
-						<td><a class="btn btn-sm btn-danger" href="cancel-order?id=<%=o.getOrderId()%>">Cancella Ordine</a></td>
+						<td><%=o.getPrice() %></td>
+						<td><a class="btn btn-sm btn-danger" href="cancel-order-admin?id=<%=o.getOrderId()%>">Cancella Ordine</a></td>
 					</tr>
 				<%}
 			}

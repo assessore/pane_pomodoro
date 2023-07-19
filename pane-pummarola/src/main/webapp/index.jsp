@@ -6,13 +6,18 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%
-
+int amm = 0;
 Users auth = (Users) request.getSession().getAttribute("auth");
 if (auth != null){
 
+	if(auth.getId() == 1){
+		amm = 1;
+	}
 	
-	request.setAttribute("auth", auth);
 }
+
+request.setAttribute("auth", auth);
+
 
 ProductDao pd = new ProductDao(DbCon.getConnection());
 List<Product> products = pd.getAllProducts();

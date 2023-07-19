@@ -82,6 +82,36 @@ public class OrderDao {
         }
         //return result;
     }
+    
+    public List<Order> getAllOrders(){
+		List<Order> list = new ArrayList<Order>();
+		
+		try {
+			query = "select * from orders";
+			pst = this.con.prepareStatement(query);
+			rs = pst.executeQuery();
+			 while (rs.next()) {
+	                Order order = new Order();
+	                ProductDao productDao = new ProductDao(this.con);
+	                int pId = rs.getInt("p_id");
+	                Product product = productDao.getSingleProduct(pId);
+	                order.setOrderId(rs.getInt("o_id"));
+	                order.setId(pId);
+	                order.setName(product.getName());
+	                order.setCategory(product.getCategory());
+	                order.setPrice(product.getPrice()*rs.getInt("o_quantity"));
+	                order.setQunatity(rs.getInt("o_quantity"));
+	                order.setDate(rs.getString("o_date"));
+	                list.add(order);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		
+	
+		}
+		return list;
+}
+
 }
 	
 	
